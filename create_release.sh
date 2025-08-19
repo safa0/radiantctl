@@ -7,7 +7,7 @@ set -e
 
 # Configuration
 APP_NAME="radiantctl"
-VERSION="0.1.0"
+VERSION="0.2.0"
 REPO="safa0/radiantctl"
 
 # Colors for output
@@ -37,18 +37,38 @@ echo -e "${YELLOW}Building application...${NC}"
 npm run tauri build
 
 # Create release notes
-RELEASE_NOTES="## What's New in v${VERSION}
+RELEASE_NOTES="## What's New in v${VERSION} - Smart Preset System! 🎨
 
-### Features
-- Monitor brightness and contrast control
-- Quick preset management
-- Advanced VCP (Virtual Control Panel) settings
-- Support for multiple monitors
+### 🌟 Major New Features
+
+#### Smart Preset Management
+- **🎯 Intelligent Visual Feedback**: Checkmarks (✓) when values match presets exactly
+- **🎨 Enhanced Visual States**: Blue for selected, green for matching, orange for modified
+- **⚡ Real-time Auto-saving**: Custom presets save changes automatically
+- **⚠️ Smart Modification Warnings**: Clear feedback when modifying built-in presets
+
+#### Professional Preset Tools
+- **➕ Create Custom Presets**: Dedicated modal with current value detection
+- **📋 Duplicate Any Preset**: Copy built-in or custom presets instantly
+- **🗑️ Safe Deletion**: Confirmation dialogs for custom preset removal
+- **📊 Value Previews**: See brightness/contrast percentages in preset cards
+
+#### Enhanced User Experience
+- **🎪 Taller Preset Cards**: Better information layout and visual hierarchy
+- **✨ Smooth Animations**: Pulse effects for modified presets and glowing highlights
+- **💡 Helpful Status Messages**: Clear guidance for all preset operations
+- **🎛️ Professional UI**: Modern styling with proper spacing and typography
+
+### 🔧 Technical Improvements
+- **⚡ Optimized State Management**: Better React hooks and performance
+- **💾 Persistent Storage**: Custom presets saved to localStorage
+- **🔄 Real-time Synchronization**: Instant UI updates when values change
+- **🛡️ Type Safety**: Full TypeScript coverage for all new features
 
 ### Installation
 1. Download the AppImage file
-2. Make it executable: \`chmod +x radiantctl_0.1.0_amd64.AppImage\`
-3. Run: \`./radiantctl_0.1.0_amd64.AppImage\`
+2. Make it executable: \`chmod +x radiantctl_${VERSION}_amd64.AppImage\`
+3. Run: \`./radiantctl_${VERSION}_amd64.AppImage\`
 
 ### Requirements
 - Linux with ddcutil support
