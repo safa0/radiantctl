@@ -2,5 +2,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    modern_ddcui_lib::run()
+    radiantctl_lib::run()
 }

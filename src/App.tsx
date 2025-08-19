@@ -107,7 +107,7 @@ function App() {
         </ul>
       </aside>
       <main className="main">
-        <h1 className="title gradient-text">UluruDDC</h1>
+        <h1 className="title gradient-text">Radiant Control</h1>
         {perms && (!perms.ddcutil || !perms.i2c || !perms.jsonSupported) && (
           <div className="banner warning">
             <div className="banner-title">Permissions/Dependencies</div>
