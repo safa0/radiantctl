@@ -248,23 +248,47 @@ async fn save_settings(settings: Settings) -> Result<(), String> {
 }
 
 #[tauri::command]
-async fn apply_preset(target: Option<String>, preset_id: Option<String>, spec: Option<HashMap<String, u32>>) -> Result<(), String> {
-    // Simple MVP: apply to one display by id
-    let id = target.ok_or("target display id required")?;
-    let mut values = spec.unwrap_or_default();
-    if values.is_empty() {
-        // builtin presets
-        match preset_id.as_deref() {
-            Some("brightest") => { values.insert("0x10".into(), 100); values.insert("0x12".into(), 75); }
-            Some("mid") => { values.insert("0x10".into(), 50); values.insert("0x12".into(), 50); }
-            Some("midnight") => { values.insert("0x10".into(), 10); values.insert("0x12".into(), 40); }
-            _ => {}
+async fn apply_preset(target: String, preset_id: String) -> Result<(), String> {
+    // Get the display
+    let _display = {
+        let data = APP_DATA.lock().unwrap();
+        data.displays
+            .iter()
+            .find(|d| d.id == target)
+            .cloned()
+            .ok_or("display not found".to_string())?
+    };
+
+    // Get preset values - this will be handled by the frontend
+    // The frontend will call set_vcp_value for each value in the preset
+    let mut values: HashMap<String, u32> = HashMap::new();
+    
+    // Builtin presets
+    match preset_id.as_str() {
+        "brightest" => { 
+            values.insert("0x10".to_string(), 100); 
+            values.insert("0x12".to_string(), 75); 
+        }
+        "mid" => { 
+            values.insert("0x10".to_string(), 50); 
+            values.insert("0x12".to_string(), 50); 
+        }
+        "midnight" => { 
+            values.insert("0x10".to_string(), 10); 
+            values.insert("0x12".to_string(), 40); 
+        }
+        _ => {
+            // For custom presets, the frontend will handle the values
+            // This is just a fallback for builtin presets
+            return Ok(());
         }
     }
+
+    // Apply values in order
     let order = ["0x10", "0x12", "0x16", "0x18", "0x1A"];
     for c in order {
         if let Some(v) = values.get(c) {
-            set_vcp_value(id.clone(), c.to_string(), *v).await?;
+            set_vcp_value(target.clone(), c.to_string(), *v).await?;
         }
     }
     Ok(())
