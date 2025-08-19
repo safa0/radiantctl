@@ -86,7 +86,7 @@ function App() {
     await invoke("set_vcp_value", { id: selectedId, code, value });
   };
 
-  const s = selected ? states[selected.id] : undefined;
+  // const s = selected ? states[selected.id] : undefined;
 
   return (
     <div className="app">
