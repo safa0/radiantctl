@@ -45,16 +45,15 @@ jobs:
       - name: Build application
         run: npm run tauri build
 
-      - name: Create Release
-        uses: softprops/action-gh-release@v1
+      - name: Create or Update Release
+        uses: ncipollo/release-action@v1
         with:
-          files: |
+          allowUpdates: true
+          generateReleaseNotes: true
+          draft: false
+          prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: |
             src-tauri/target/release/bundle/appimage/radiantctl_*.AppImage
             src-tauri/target/release/bundle/deb/radiantctl_*.deb
             src-tauri/target/release/bundle/rpm/radiantctl-*.rpm
-          draft: false
-          prerelease: false
-          generate_release_notes: true
-          token: ${{ secrets.GITHUB_TOKEN }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
